@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  name     String
+  phone    Int
+  post     Post
+
+  @@map("user")
+}
+
+enum Post {
+  admin
+  client
+  logist
+}
+
+model TransDoc {
+  ndoc         String @unique
+  station_otpr String
+  station_nazn String
+  notpr        String
+  npol         String
+  way_code     String
+  dat_oform    String
+  dat_ceh_otpr String
+  dat_st_otpr  String
+  dat_st_nazn  String
+  dat_ceh_nazn String
+  usr_ceh_otpr String
+  usr_st_otpr  String
+  usr_st_nazn  String
+  usr_ceh_nazn String
+  num_doc      Int    @unique
+  user_id      String
+
+  @@map("trans_doc")
+}
+
+model WayCode {
+  way_code String @unique
+
+  @@map("way_code")
+}
+
+model TransStr {
+  ndoc             String
+  id               String @id @unique @default(uuid())
+  inside_load_code String
+  nvag             Int
+  gpod             String
+  kodtvag          String
+  vesvag           String
+  ves_grotp        String
+  ves_proves       String
+  dat_ceh_otpr     String
+  dat_st_otpr      String
+  dat_st_nazn      String
+  dat_ceh_nazn     String
+  usr_ceh_otpr     String
+  usr_st_otpr      String
+  usr_st_nazn      String
+  usr_ceh_nazn     String
+  num_doc          Int
+
+  @@map("trans_str")
+}
+
+model IntVagon {
+  nvag      Int    @id @unique
+  kodtvag   String
+  gpod      String
+  vesvag    String
+  ves_grotp String
+
+  @@map("int_trans")
+}
+
+model InsideLoads {
+  inside_load_code Int    @id @unique
+  inside_load_name String
+
+  @@map("inside_loads")
+}
+
+model StationInside {
+  station_inside_code Int    @id @unique
+  station_inside_name String
+
+  @@map("station_inside")
+}
+
+model StationCeh {
+  kceh  Int    @id @unique
+  nceh  String
+  shceh String
+
+  @@map("station_ceh")
+}
